@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:multi_venors/views/profile/profile_page.dart';
+import 'package:multi_venors/views/search/search_page.dart';
 
 import '../constants/constants.dart';
 import '../controllers/tab_index_controller.dart';
+import 'cart/cart_page.dart';
+import 'home/home_page.dart';
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
+
+  List<Widget> pageList = const [
+    HomePage(),
+    SearchPage(),
+    CartPage(),
+    ProfilePage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +25,7 @@ class MainScreen extends StatelessWidget {
     return Obx(() => Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: height,
-            width: width,
-            color: kOffWhite,
-          ),
+          pageList[controller.tabIndex],
           Align(
             alignment: Alignment.bottomCenter,
             child: Theme(
@@ -26,6 +33,7 @@ class MainScreen extends StatelessWidget {
                 child: BottomNavigationBar(
                   showSelectedLabels: false,
                   showUnselectedLabels: false,
+                  elevation: 0,
                   unselectedIconTheme:
                   const IconThemeData(color: Colors.black38),
                   selectedIconTheme: const IconThemeData(color: kSecondary),
