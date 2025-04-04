@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:multi_venors/views/entrypoint.dart';
 
 import 'constants/constants.dart';
 
-Widget defaultHome = const MyHomePage(title: "jsdgjhds");
+Widget defaultHome = const MainScreen();
 
 void main() {
   runApp(const MyApp());
