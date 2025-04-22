@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:multi_venors/common/custom_container.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/views/home/recommendations_page.dart';
+import 'package:multi_venors/views/home/widgets/food_list.dart';
+import 'package:multi_venors/views/home/widgets/nearby_restaurants_list.dart';
 
 import '../../common/custom_appbar.dart';
 import '../../common/heading.dart';
@@ -33,6 +35,7 @@ class HomePage extends StatelessWidget {
                     duration: const Duration(milliseconds: 900));
               },
             ),
+            const NearbyRestaurants(),
             Heading(
               text: "Try Something New",
               onTap: () {
@@ -41,6 +44,7 @@ class HomePage extends StatelessWidget {
                     duration: const Duration(milliseconds: 900));
               },
             ),
+            const FoodsList(),
             Heading(
               text: "Food closer to you",
               onTap: () {
@@ -49,6 +53,7 @@ class HomePage extends StatelessWidget {
                     duration: const Duration(milliseconds: 900));
               },
             ),
+            const FoodsList(),
           ],
         )),
       ),
