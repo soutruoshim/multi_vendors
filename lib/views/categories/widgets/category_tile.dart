@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../common/app_style.dart';
 import '../../../common/reusable_text.dart';
 import '../../../constants/constants.dart';
+import '../../../models/categories.dart';
 import '../category_page.dart';
 
 class CategoryTile extends StatelessWidget {
@@ -13,7 +14,7 @@ class CategoryTile extends StatelessWidget {
     required this.category,
   });
 
-  var category;
+  CategoriesModel category;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +34,14 @@ class CategoryTile extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
-              category['imageUrl'],
+              category.imageUrl,
               fit: BoxFit.fill, // or BoxFit.contain depending on your preference
             ),
           ),
         ),
       ),
       title: ReusableText(
-          text: category['title'],
+          text: category.title,
           style: appStyle(12, kGray, FontWeight.normal)),
       trailing: Icon(
         Icons.arrow_forward_ios_rounded,
