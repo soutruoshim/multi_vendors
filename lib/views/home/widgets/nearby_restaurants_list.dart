@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_venors/constants/uidata.dart';
+import 'package:multi_venors/common/shimmers/nearby_shimmer.dart';
+import 'package:multi_venors/hooks/fetch_restaurants.dart';
+import 'package:multi_venors/models/restaurants_model.dart';
 import 'package:multi_venors/views/home/widgets/restaurant_widget.dart';
-
-import '../../../common/shimmers/nearby_shimmer.dart';
-import '../../../hooks/fetch_restaurants.dart';
-import '../../../models/restaurants_model.dart';
+import 'package:multi_venors/views/restaurant/restaurant_page.dart';
+import 'package:get/get.dart';
 
 class NearbyRestaurants extends HookWidget {
   const NearbyRestaurants({super.key});
@@ -17,7 +17,9 @@ class NearbyRestaurants extends HookWidget {
     List<RestaurantsModel>? restaurants = hookResults.data;
     final isLoading = hookResults.isLoading;
 
-    return isLoading ? const NearbyShimmer() : Container(
+    return isLoading
+        ? const NearbyShimmer()
+        : Container(
       height: 190.h,
       padding: EdgeInsets.only(left: 12.w, top: 10.h),
       child: ListView(
@@ -25,6 +27,9 @@ class NearbyRestaurants extends HookWidget {
         children: List.generate(restaurants!.length, (i) {
           RestaurantsModel restaurant = restaurants[i];
           return RestaurantWidget(
+              onTap: () {
+                Get.to(() => RestaurantPage(restaurant: restaurant));
+              },
               image: restaurant.imageUrl,
               logo: restaurant.logoUrl,
               title: restaurant.title,

@@ -6,7 +6,8 @@ import 'package:multi_venors/common/reusable_text.dart';
 import 'package:multi_venors/constants/constants.dart';
 
 import '../../../models/restaurants_model.dart';
-
+import '../../restaurant/restaurant_page.dart';
+import 'package:get/get.dart';
 class RestaurantTile extends StatelessWidget {
   RestaurantTile({super.key, required this.restaurant});
 
@@ -15,7 +16,9 @@ class RestaurantTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.to(() =>  RestaurantPage(restaurant: restaurant));
+        },
         child: Stack(
           clipBehavior: Clip.hardEdge,
           children: [

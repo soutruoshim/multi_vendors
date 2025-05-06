@@ -7,6 +7,8 @@ import 'package:multi_venors/common/reusable_text.dart';
 import 'package:multi_venors/constants/constants.dart';
 
 import '../../../models/foods_model.dart';
+import '../../food/food_page.dart';
+import 'package:get/get.dart';
 
 class FoodTile extends StatelessWidget {
   FoodTile({super.key, required this.food, this.color});
@@ -17,7 +19,9 @@ class FoodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.to(() => FoodPage(food: food));
+        },
         child: Stack(
           clipBehavior: Clip.hardEdge,
           children: [

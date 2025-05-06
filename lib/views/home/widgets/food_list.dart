@@ -7,6 +7,9 @@ import 'package:multi_venors/views/home/widgets/food_widget.dart';
 import '../../../common/shimmers/nearby_shimmer.dart';
 import '../../../hooks/fetch_foods.dart';
 import '../../../models/foods_model.dart';
+import 'package:get/get.dart';
+
+import '../../food/food_page.dart';
 
 class FoodsList extends HookWidget {
   const FoodsList({super.key});
@@ -27,6 +30,9 @@ class FoodsList extends HookWidget {
         children: List.generate(foods.length, (i) {
           FoodsModel food = foods[i];
           return FoodWidget(
+              onTap: () {
+                Get.to(() => FoodPage(food: food));
+              },
               image: food.imageUrl[0],
               title: food.title,
               time: food.time,
