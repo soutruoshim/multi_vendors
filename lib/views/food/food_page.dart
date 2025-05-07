@@ -7,14 +7,13 @@ import 'package:multi_venors/common/app_style.dart';
 import 'package:multi_venors/common/custom_button.dart';
 import 'package:multi_venors/common/custom_text_field.dart';
 import 'package:multi_venors/common/reusable_text.dart';
+import 'package:multi_venors/common/verification_modal.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/controllers/foods_controller.dart';
 import 'package:multi_venors/hooks/fetch_restaurant.dart';
 import 'package:multi_venors/models/foods_model.dart';
 import 'package:multi_venors/views/restaurant/restaurant_page.dart';
 import 'package:get/get.dart';
-
-import '../../common/verification_modal.dart';
 
 class FoodPage extends StatefulHookWidget {
   const FoodPage({super.key, required this.food});
@@ -34,6 +33,7 @@ class _FoodPageState extends State<FoodPage> {
     final hookResult = useFetchRestaurant(widget.food.restaurant);
     final controller = Get.put(FoodController());
     controller.loadAdditives(widget.food.additives);
+
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.zero,
@@ -182,38 +182,38 @@ class _FoodPageState extends State<FoodPage> {
                 SizedBox(
                   height: 10.h,
                 ),
-
-            Obx(
-                  () => Column(
-                  children:
-                  List.generate(controller.additivesList.length, (index) {
-                    final additive = controller.additivesList[index];
-                    return CheckboxListTile(
-                        contentPadding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
-                        dense: true,
-                        activeColor: kSecondary,
-                        value: additive.isChecked.value,
-                        tristate: false,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ReusableText(
-                                text: additive.title,
-                                style: appStyle(11, kDark, FontWeight.w400)),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            ReusableText(
-                                text: "\$ ${additive.price}",
-                                style: appStyle(11, kPrimary, FontWeight.w600)),
-                          ],
-                        ),
-                        onChanged: (bool? value) {
-                          additive.toggleChecked();
-                          controller.getTotalPrice();
-                        });
-                   }),
+                Obx(
+                      () => Column(
+                    children:
+                    List.generate(controller.additivesList.length, (index) {
+                      final additive = controller.additivesList[index];
+                      return CheckboxListTile(
+                          contentPadding: EdgeInsets.zero,
+                          visualDensity: VisualDensity.compact,
+                          dense: true,
+                          activeColor: kSecondary,
+                          value: additive.isChecked.value,
+                          tristate: false,
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ReusableText(
+                                  text: additive.title,
+                                  style: appStyle(11, kDark, FontWeight.w400)),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              ReusableText(
+                                  text: "\$ ${additive.price}",
+                                  style:
+                                  appStyle(11, kPrimary, FontWeight.w600)),
+                            ],
+                          ),
+                          onChanged: (bool? value) {
+                            additive.toggleChecked();
+                            controller.getTotalPrice();
+                          });
+                    }),
                   ),
                 ),
                 SizedBox(

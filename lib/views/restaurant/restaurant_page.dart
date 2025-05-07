@@ -1,16 +1,16 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:multi_venors/common/app_style.dart';
-import 'package:multi_venors/common/reusable_text.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/models/restaurants_model.dart';
-import 'package:multi_venors/views/restaurant/directions_page.dart';
 import 'package:multi_venors/views/restaurant/widget/restaurant_bottom_bar.dart';
+import 'package:multi_venors/views/restaurant/widget/restaurant_menu.dart';
 import 'package:multi_venors/views/restaurant/widget/restaurant_top_bar.dart';
 import 'package:multi_venors/views/restaurant/widget/row_text.dart';
-import 'package:get/get.dart';
+import 'package:multi_venors/views/restaurant/widget/xplore_widget.dart';
 
 class RestaurantPage extends StatefulWidget {
   const RestaurantPage({super.key, required this.restaurant});
@@ -21,7 +21,13 @@ class RestaurantPage extends StatefulWidget {
   State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
-class _RestaurantPageState extends State<RestaurantPage> {
+class _RestaurantPageState extends State<RestaurantPage>
+    with TickerProviderStateMixin {
+  late TabController _tabController = TabController(
+    length: 2,
+    vsync: this,
+  );
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -52,19 +58,88 @@ class _RestaurantPageState extends State<RestaurantPage> {
             SizedBox(
               height: 10.h,
             ),
-            const Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 8.0),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Column(
-                children:  [
-                  RowText(first: "Distance to Restaurant", second: "2.7 km",),
-                  RowText(first: "Estimated Price", second: "\$2.7",),
-                  RowText(first: "Estimated Time", second: "30 min",),
-
-                  Divider(
-                    thickness: 0.7,)
+                children: [
+                  const RowText(
+                    first: "Distance to Restaurant",
+                    second: "2.7 km",
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  const RowText(
+                    first: "Estimated Price",
+                    second: "\$2.7",
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  const RowText(
+                    first: "Estimated Time",
+                    second: "30 min",
+                  ),
+                  const Divider(
+                    thickness: 0.7,
+                  )
                 ],
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal:8.w),
+              child: Container(
+                height: 25.h,
+                width: width,
+                decoration: BoxDecoration(
+                    color: kOffWhite,
+                    borderRadius: BorderRadius.circular(25.r)
+                ),
+                child: TabBar(controller: _tabController,
+                    indicator: BoxDecoration(
+                        color: kPrimary,
+                        borderRadius: BorderRadius.circular(25.r)
+                    ),
+                    labelPadding: EdgeInsets.zero,
+                    labelColor: kLightWhite,
+                    labelStyle: appStyle(12, kLightWhite, FontWeight.normal),
+                    unselectedLabelColor: kGrayLight,
+                    tabs: [
+                      Tab(
+                        child: SizedBox(
+                          width: width/2,
+                          height: 25,
+                          child: const Center(child: Text("Menu"),),
+                        ),
+                      ),
+
+                      Tab(
+                        child: SizedBox(
+                          width: width/2,
+                          height: 25,
+                          child: const Center(child: Text("Explore"),),
+                        ),
+                      ),
+                    ]),
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+
+            Padding(padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: SizedBox(
+                height: height,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    RestaurantMenuWidget(restaurantId: widget.restaurant!.id,),
+                    XploreWidget(code: widget.restaurant!.code,),
+                  ],
+                ),
+              ),
             )
+
           ],
         ),
       ),
