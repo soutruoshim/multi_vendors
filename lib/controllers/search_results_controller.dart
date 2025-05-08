@@ -24,6 +24,7 @@ class SearchFoodController extends GetxController {
     _isTriggered.value = value;
   }
 
+
   List<FoodsModel>? searchResults;
 
   void searchFoods(String key) async {

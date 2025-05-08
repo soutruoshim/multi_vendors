@@ -5,7 +5,7 @@ import 'package:multi_venors/common/custom_container.dart';
 import 'package:multi_venors/common/custom_text_field.dart';
 import 'package:multi_venors/common/shimmers/foodlist_shimmer.dart';
 import 'package:multi_venors/constants/constants.dart';
-import 'package:multi_venors/controllers/search_controller.dart';
+import 'package:multi_venors/controllers/search_results_controller.dart';
 import 'package:multi_venors/views/search/loading_widget.dart';
 import 'package:multi_venors/views/search/search_results.dart';
 import 'package:get/get.dart';

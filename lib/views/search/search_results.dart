@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../constants/constants.dart';
-import '../../controllers/search_controller.dart';
+import '../../controllers/search_results_controller.dart';
 import '../../models/foods_model.dart';
 import '../home/widgets/food_tile.dart';
 import 'package:get/get.dart';
