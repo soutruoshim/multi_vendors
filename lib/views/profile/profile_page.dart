@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:multi_venors/common/custom_button.dart';
 import 'package:multi_venors/common/custom_container.dart';
 import 'package:multi_venors/views/profile/widget/profile_app_bar.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/views/profile/widget/profile_tile_widget.dart';
 import 'package:multi_venors/views/profile/widget/user_info_widget.dart';
+
+import '../auth/login_redirect.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -33,7 +36,9 @@ class ProfilePage extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       ProfileTileWidget(
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(() => LoginRedirect());
+                          },
                           title: "My Orders",
                           icon: Ionicons.fast_food_outline),
                       ProfileTileWidget(
