@@ -9,9 +9,11 @@ import 'package:multi_venors/common/custom_text_field.dart';
 import 'package:multi_venors/common/reusable_text.dart';
 import 'package:multi_venors/common/verification_modal.dart';
 import 'package:multi_venors/constants/constants.dart';
+import 'package:multi_venors/controllers/cart_controller.dart';
 import 'package:multi_venors/controllers/foods_controller.dart';
 import 'package:multi_venors/controllers/login_controller.dart';
 import 'package:multi_venors/hooks/fetch_restaurant.dart';
+import 'package:multi_venors/models/cart_request.dart';
 import 'package:multi_venors/models/foods_model.dart';
 import 'package:multi_venors/models/login_response.dart';
 import 'package:multi_venors/views/auth/login_page.dart';
@@ -33,6 +35,7 @@ class _FoodPageState extends State<FoodPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
     LoginResponse? user;
     final hookResult = useFetchRestaurant(widget.food.restaurant);
     final controller = Get.put(FoodController());
@@ -218,6 +221,7 @@ class _FoodPageState extends State<FoodPage> {
                           onChanged: (bool? value) {
                             additive.toggleChecked();
                             controller.getTotalPrice();
+                            controller.getCartAdditive();
                           });
                     }),
                   ),
@@ -308,7 +312,21 @@ class _FoodPageState extends State<FoodPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+
+                        onTap: () {
+                          double price = (widget.food.price +
+                              controller.additivePrice) * controller.count.value;
+
+                          var data = CartRequest(
+                              productId: widget.food.id,
+                              additives: controller.getCartAdditive(),
+                              quantity: controller.count.value,
+                              totalPrice: price);
+
+                          String cart = cartRequestToJson(data);
+
+                          cartController.addToCart(cart);
+                        },
                         child: CircleAvatar(
                           backgroundColor: kSecondary,
                           radius: 20.r,
