@@ -1,13 +1,34 @@
 // ignore_for_file: prefer_final_fields
 
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:multi_venors/constants/constants.dart';
+import 'package:multi_venors/models/api_eror.dart';
+import 'package:multi_venors/views/entrypoint.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class UserLocationController extends GetxController {
+  RxBool _isDefault = false.obs;
+
+  bool get isDefault => _isDefault.value;
+
+  set setIsDefault(bool value) {
+    _isDefault.value = value;
+  }
+
+
+  RxInt _tabIndex = 0.obs;
+
+  int get tabIndex => _tabIndex.value;
+
+  set setTabIndex(int value) {
+    _tabIndex.value = value;
+  }
+
   LatLng position = const LatLng(0, 0);
 
   void setPosition(LatLng value) {
@@ -21,6 +42,14 @@ class UserLocationController extends GetxController {
 
   set setAddress(String value) {
     _address.value = value;
+  }
+
+  RxString _address1 = ''.obs;
+
+  String get address1 => _address1.value;
+
+  set setAddress1(String value) {
+    _address1.value = value;
   }
 
   RxString _postalCode = ''.obs;
@@ -53,4 +82,46 @@ class UserLocationController extends GetxController {
       }
     }
   }
+
+  void addAddress(String data) async {
+    final box = GetStorage();
+    String accessToken = box.read("token");
+
+    Uri url = Uri.parse('$appBaseUrl/api/address');
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken'
+    };
+
+    try {
+      var response = await http.post(url, headers: headers, body: data);
+
+      if (response.statusCode == 201) {
+
+
+
+        Get.snackbar(
+            "Your address has been added", "Enjoy your awesome experience",
+            colorText: kLightWhite,
+            backgroundColor: kPrimary,
+            icon: const Icon(Ionicons.fast_food_outline));
+
+        Get.offAll(() => MainScreen());
+
+
+      } else {
+        var error = apiErrorFromJson(response.body);
+
+        Get.snackbar("Failed to add address", error.message,
+            colorText: kLightWhite,
+            backgroundColor: kRed,
+            icon: const Icon(Icons.error_outline));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+
 }

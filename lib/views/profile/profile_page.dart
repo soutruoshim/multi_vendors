@@ -15,6 +15,7 @@ import '../../controllers/login_controller.dart';
 import '../../models/login_response.dart';
 import '../auth/login_redirect.dart';
 import '../auth/verification_page.dart';
+import 'addresses_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -91,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       ProfileTileWidget(
                           onTap: () {
-                            Get.to(() => const ShippingAddress(),
+                            Get.to(() => const Addresses(),
                                 transition: Transition.rightToLeft,
                                 duration: const Duration(milliseconds: 900)
                             );
