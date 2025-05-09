@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:multi_venors/views/profile/profile_page.dart';
 import 'package:multi_venors/views/search/search_page.dart';
 
 import '../constants/constants.dart';
 import '../controllers/tab_index_controller.dart';
+import '../hooks/fetch_default.dart';
 import 'cart/cart_page.dart';
 import 'home/home_page.dart';
-class MainScreen extends StatelessWidget {
+class MainScreen extends HookWidget {
   MainScreen({super.key});
 
   List<Widget> pageList = const [
@@ -21,6 +24,12 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final box = GetStorage();
+    String? token = box.read("token");
+    debugPrint(token);
+    if (token != null) {
+      useFetchDefault();
+    }
     final controller = Get.put(TabIndexController());
     return Obx(() => Scaffold(
       body: Stack(
