@@ -32,7 +32,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
   final TextEditingController _postalCode = TextEditingController();
   final TextEditingController _instructions = TextEditingController();
   // _postalCode
-  LatLng? _selectedPosition;
+  LatLng? _selectedPosition = LatLng(37.785834, -122.406417);
   List<dynamic> _placeList = [];
   List<dynamic> _selectedPlace = [];
 
@@ -324,8 +324,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
                               postalCode: _postalCode.text,
                               addressModelDefault: locationController.isDefault,
                               deliveryInstructions: _instructions.text,
-                              latitude: _selectedPosition!.latitude,
-                              longitude: _selectedPosition!.longitude);
+                              latitude: _selectedPosition!.latitude?? 0,
+                              longitude: _selectedPosition!.longitude?? 0);
 
                           String data = addressModelToJson(model);
 

@@ -69,7 +69,7 @@ class UserLocationController extends GetxController {
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
 
-      final address = responseBody['results'][0]['formatted_address'];
+      final address = responseBody['results'][0]['formatted_address']??"not found";
       setAddress = address;
 
       final addressComponents =

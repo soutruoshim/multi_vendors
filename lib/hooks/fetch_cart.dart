@@ -15,7 +15,6 @@ FetchHook useFetchCart() {
 
   Future<void> fetchData() async {
     String accessToken = box.read("token");
-
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $accessToken'
@@ -25,13 +24,13 @@ FetchHook useFetchCart() {
     try {
       Uri url = Uri.parse('$appBaseUrl/api/cart');
       final response = await http.get(url, headers: headers);
-
       if (response.statusCode == 200) {
         cart.value = cartResponseFromJson(response.body);
       } else {
         appiError.value = apiErrorFromJson(response.body);
       }
     } catch (e) {
+      print(e);
       error.value = e as Exception;
     } finally {
       isLoading.value = false;

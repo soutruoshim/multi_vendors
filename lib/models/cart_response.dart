@@ -9,44 +9,52 @@ List<CartResponse> cartResponseFromJson(String str) => List<CartResponse>.from(j
 String cartResponseToJson(List<CartResponse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CartResponse {
-  final String id;
-  final ProductId productId;
-  final List<String> additives;
-  final double totalPrice;
-  final int quantity;
+  String id;
+  String userId;
+  ProductId productId;
+  List<dynamic> additives;
+  String instructions;
+  double totalPrice;
+  int quantity;
 
   CartResponse({
     required this.id,
+    required this.userId,
     required this.productId,
     required this.additives,
+    required this.instructions,
     required this.totalPrice,
     required this.quantity,
   });
 
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
     id: json["_id"],
+    userId: json["userId"],
     productId: ProductId.fromJson(json["productId"]),
-    additives: List<String>.from(json["additives"].map((x) => x)),
+    additives: List<dynamic>.from(json["additives"].map((x) => x)),
+    instructions: json["instructions"],
     totalPrice: json["totalPrice"]?.toDouble(),
     quantity: json["quantity"],
   );
 
   Map<String, dynamic> toJson() => {
     "_id": id,
+    "userId": userId,
     "productId": productId.toJson(),
     "additives": List<dynamic>.from(additives.map((x) => x)),
+    "instructions": instructions,
     "totalPrice": totalPrice,
-    "quantity": quantity,
+    "quantity": quantity
   };
 }
 
 class ProductId {
-  final String id;
-  final String title;
-  final String restaurant;
-  final double rating;
-  final String ratingCount;
-  final List<String> imageUrl;
+  String id;
+  String title;
+  Restaurant restaurant;
+  double rating;
+  String ratingCount;
+  List<String> imageUrl;
 
   ProductId({
     required this.id,
@@ -60,7 +68,7 @@ class ProductId {
   factory ProductId.fromJson(Map<String, dynamic> json) => ProductId(
     id: json["_id"],
     title: json["title"],
-    restaurant: json["restaurant"],
+    restaurant: Restaurant.fromJson(json["restaurant"]),
     rating: json["rating"]?.toDouble(),
     ratingCount: json["ratingCount"],
     imageUrl: List<String>.from(json["imageUrl"].map((x) => x)),
@@ -69,9 +77,77 @@ class ProductId {
   Map<String, dynamic> toJson() => {
     "_id": id,
     "title": title,
-    "restaurant": restaurant,
+    "restaurant": restaurant.toJson(),
     "rating": rating,
     "ratingCount": ratingCount,
     "imageUrl": List<dynamic>.from(imageUrl.map((x) => x)),
+  };
+}
+
+class Restaurant {
+  Coords coords;
+  String id;
+  String time;
+  String imageUrl;
+
+  Restaurant({
+    required this.coords,
+    required this.id,
+    required this.time,
+    required this.imageUrl,
+  });
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+    coords: Coords.fromJson(json["coords"]),
+    id: json["_id"],
+    time: json["time"],
+    imageUrl: json["imageUrl"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "coords": coords.toJson(),
+    "_id": id,
+    "time": time,
+    "imageUrl": imageUrl,
+  };
+}
+
+class Coords {
+  String id;
+  double latitude;
+  double longitude;
+  String address;
+  String title;
+  double latitudeDelta;
+  double longitudeDelta;
+
+  Coords({
+    required this.id,
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+    required this.title,
+    required this.latitudeDelta,
+    required this.longitudeDelta,
+  });
+
+  factory Coords.fromJson(Map<String, dynamic> json) => Coords(
+    id: json["id"],
+    latitude: json["latitude"]?.toDouble(),
+    longitude: json["longitude"]?.toDouble(),
+    address: json["address"],
+    title: json["title"],
+    latitudeDelta: json["latitudeDelta"]?.toDouble(),
+    longitudeDelta: json["longitudeDelta"]?.toDouble(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "latitude": latitude,
+    "longitude": longitude,
+    "address": address,
+    "title": title,
+    "latitudeDelta": latitudeDelta,
+    "longitudeDelta": longitudeDelta,
   };
 }
