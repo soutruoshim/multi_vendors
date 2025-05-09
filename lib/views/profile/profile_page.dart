@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:multi_venors/common/custom_button.dart';
 import 'package:multi_venors/common/custom_container.dart';
+import 'package:multi_venors/views/profile/shipping_address.dart';
 import 'package:multi_venors/views/profile/widget/profile_app_bar.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/views/profile/widget/profile_tile_widget.dart';
@@ -46,7 +47,7 @@ class ProfilePage extends StatelessWidget {
         child: CustomContainer(
             containerContent: Column(
               children: [
-                const UserInfoWidget(),
+                //const UserInfoWidget(),
                 SizedBox(
                   height: 10.h,
                 ),
@@ -89,7 +90,12 @@ class ProfilePage extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       ProfileTileWidget(
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(() => const ShippingAddress(),
+                                transition: Transition.rightToLeft,
+                                duration: const Duration(milliseconds: 900)
+                            );
+                          },
                           title: "Shipping Address",
                           icon: SimpleLineIcons.location_pin),
                       ProfileTileWidget(

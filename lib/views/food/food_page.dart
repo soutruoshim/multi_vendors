@@ -10,8 +10,11 @@ import 'package:multi_venors/common/reusable_text.dart';
 import 'package:multi_venors/common/verification_modal.dart';
 import 'package:multi_venors/constants/constants.dart';
 import 'package:multi_venors/controllers/foods_controller.dart';
+import 'package:multi_venors/controllers/login_controller.dart';
 import 'package:multi_venors/hooks/fetch_restaurant.dart';
 import 'package:multi_venors/models/foods_model.dart';
+import 'package:multi_venors/models/login_response.dart';
+import 'package:multi_venors/views/auth/login_page.dart';
 import 'package:multi_venors/views/restaurant/restaurant_page.dart';
 import 'package:get/get.dart';
 
@@ -30,10 +33,13 @@ class _FoodPageState extends State<FoodPage> {
 
   @override
   Widget build(BuildContext context) {
+    LoginResponse? user;
     final hookResult = useFetchRestaurant(widget.food.restaurant);
     final controller = Get.put(FoodController());
-    controller.loadAdditives(widget.food.additives);
+    final loginController = Get.put(LoginController());
 
+    user = loginController.getUserInfo();
+    controller.loadAdditives(widget.food.additives);
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.zero,
@@ -285,7 +291,13 @@ class _FoodPageState extends State<FoodPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showVerificationSheet(context);
+                          if (user == null) {
+                            Get.to(() => const LoginPage());
+                          } else if (user.phoneVerification == false) {
+                            showVerificationSheet(context);
+                          } else {
+                            print("Place Order");
+                          }
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
