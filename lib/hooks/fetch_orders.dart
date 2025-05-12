@@ -1,19 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:multi_venors/constants/constants.dart';
-import 'package:multi_venors/controllers/user_location_controller.dart';
-import 'package:multi_venors/models/addresses_response.dart';
 import 'package:multi_venors/models/api_eror.dart';
+import 'package:multi_venors/models/client_orders.dart';
 import 'package:multi_venors/models/hook_models/hook_result.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-FetchHook useFetchDefault() {
-  final controller = Get.put(UserLocationController());
+FetchHook useFetchOrders(String orderStatus, String paymentStatus) {
   final box = GetStorage();
-  final addresses = useState<AddressResponse?>(null);
+  final orders = useState<List<ClientOrders>>([]);
   final isLoading = useState<bool>(false);
   final error = useState<Exception?>(null);
   final appiError = useState<ApiError?>(null);
@@ -28,21 +23,16 @@ FetchHook useFetchDefault() {
     isLoading.value = true;
 
     try {
-      Uri url = Uri.parse('$appBaseUrl/api/address/default');
+      Uri url = Uri.parse(
+          '$appBaseUrl/api/orders?orderStatus=$orderStatus&paymentStatus=$paymentStatus');
       final response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
-        var data = response.body;
-        box.write("defaultAddress", true);
-        var decoded = jsonDecode(data);
-        addresses.value = AddressResponse.fromJson(decoded);
-        controller.setAddress1 = addresses.value!.addressLine1;
+        orders.value = clientOrdersFromJson(response.body);
       } else {
-        box.write("defaultAddress", false);
         appiError.value = apiErrorFromJson(response.body);
       }
     } catch (e) {
-      box.write("defaultAddress", false);
       error.value = e as Exception;
     } finally {
       isLoading.value = false;
@@ -60,7 +50,7 @@ FetchHook useFetchDefault() {
   }
 
   return FetchHook(
-    data: addresses.value,
+    data: orders.value,
     isLoading: isLoading.value,
     error: error.value,
     refetch: refetch,
